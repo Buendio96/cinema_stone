@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+}
+
+.dark {
+}
+
+@theme inline {
+}
