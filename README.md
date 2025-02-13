@@ -1,2 +1,11 @@
-# cinema_stone
-Simple Cinema Site – a learning project using React, Redux (RTK-Query), SCSS, Tailwind, shadcn/ui, Lucide, and JSON Server. Fetches movie data from the TMDB API. For educational purposes only.
+Simple Cinema Site
+
+A learning project built with the following stack:
+
+React (with Redux & RTK-Query for state management and data fetching)
+SCSS (with Tailwind used for testing)
+JSON Server (for simulating a backend)
+shadcn/ui components
+Lucide icons
+TMDB API (for movie data)
+This project is for educational purposes only and is not intended for commercial use.
