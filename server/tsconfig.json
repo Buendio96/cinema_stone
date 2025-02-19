@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "NodeNext",
+		"moduleResolution": "nodenext",
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"rootDir": "src",
+		"outDir": "dist", // Здесь указываем директорию для билд-файлов
+		"allowJs": true,
+		"noEmit": false // Убедитесь, что этот параметр установлен в false
+	},
+	"include": [
+		"src"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}
