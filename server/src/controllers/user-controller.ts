@@ -1,14 +1,29 @@
 import { NextFunction, Request, Response } from 'express'
+import {
+	IResponseRegistration,
+	isUserService,
+} from '../service/user-service.js'
 
-class AuthController {
+class UserController {
 	async registration(
 		req: Request,
-		res: Response,
-		next: NextFunction
-	): Promise<void> {
+		res: Response<IResponseRegistration>
+	): Promise<Response<IResponseRegistration>> {
 		try {
+			const { email, password } = req.body
+			const userData = await isUserService.registration(email, password)
+
+			// Устанавливаем refreshToken в куки
+			res.cookie('refreshToken', userData.refreshToken, {
+				maxAge: 30 * 24 * 60 * 60 * 1000,
+				httpOnly: true,
+			})
+
+			return res.json(userData)
 		} catch (e) {
 			console.log(e)
+
+			return res.status(500).json()
 		}
 	}
 
@@ -61,4 +76,4 @@ class AuthController {
 	}
 }
 
-export const authController = new AuthController()
+export const isUserController = new UserController()
