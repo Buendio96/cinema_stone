@@ -1,5 +1,4 @@
 import {
-	Registration,
 	isUserService,
 } from '../service/user-service.js'
 
@@ -22,7 +21,7 @@ class UserController {
 		} catch (e) {
 			console.log(e)
 
-			return res.status(500).json()
+
 		}
 	}
 

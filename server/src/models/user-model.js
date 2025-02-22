@@ -9,4 +9,4 @@ const UserSchema = new Schema({
 	activationLink: { type: String, required: false },
 })
 
-export const UserModel = mongoose.model('User', UserSchema)
+export const userModel = mongoose.model('User', UserSchema)

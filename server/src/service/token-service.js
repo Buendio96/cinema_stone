@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { TokenModel } from '../models/token-model.js'
+import { tokenModel } from '../models/token-model.js'
 
 export class TokenService {
 	generateTokens(payload) {
@@ -26,7 +26,7 @@ export class TokenService {
 
 	async saveToken(userId, refreshToken) {
 		//Есть ли такой токена у какого то пользователя
-		const tokenData = await TokenModel.findOne({ user: userId })
+		const tokenData = await tokenModel.findOne({ user: userId })
 
 		//Если да то перезаписуем на новый токен
 		if (tokenData) {
@@ -37,7 +37,7 @@ export class TokenService {
 		}
 
 		//Создаем токен для нового юзера
-		const token = await TokenModel.create({ user: userId, refreshToken })
+		const token = await tokenModel.create({ user: userId, refreshToken })
 
 		return token
 	}
