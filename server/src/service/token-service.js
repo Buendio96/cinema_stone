@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken'
-import { ObjectId } from 'mongodb'
 import { TokenModel } from '../models/token-model.js'
 
 export class TokenService {
-	generateTokens(payload: object) {
+	generateTokens(payload) {
 		const accessSecret = process.env.JWT_ACCESS_SECRET
 		const refreshSecret = process.env.JWT_REFRESH_SECRET
 
@@ -25,7 +24,7 @@ export class TokenService {
 		return { accessToken, refreshToken }
 	}
 
-	async saveToken(userId: ObjectId, refreshToken: string) {
+	async saveToken(userId, refreshToken) {
 		//Есть ли такой токена у какого то пользователя
 		const tokenData = await TokenModel.findOne({ user: userId })
 

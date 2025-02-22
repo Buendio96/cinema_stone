@@ -1,22 +1,15 @@
 import bcrypt from 'bcryptjs'
-import { ObjectId } from 'mongodb'
 import { v4 as uuidv4 } from 'uuid'
 import { UserDto } from '../dtos/user-dto.js'
 import { UserModel } from '../models/user-model.js'
 import { isMailService } from './mail-service.js'
 import { isTokenService } from './token-service.js'
 
-export interface IResponseRegistration {
-	accessToken: string
-	refreshToken: string
-	user: { email: string; id: ObjectId; isActivated: boolean }
-}
-
 class UserService {
 	async registration(
-		email: string,
-		password: string
-	): Promise<IResponseRegistration> {
+		email,
+		password
+	) {
 		//Проверка или есть такой User по Email
 		const candidate = await UserModel.findOne({ email })
 

@@ -1,14 +1,13 @@
-import { NextFunction, Request, Response } from 'express'
 import {
-	IResponseRegistration,
+	Registration,
 	isUserService,
 } from '../service/user-service.js'
 
 class UserController {
 	async registration(
-		req: Request,
-		res: Response<IResponseRegistration>
-	): Promise<Response<IResponseRegistration>> {
+		req,
+		res
+	) {
 		try {
 			const { email, password } = req.body
 			const userData = await isUserService.registration(email, password)
@@ -27,14 +26,14 @@ class UserController {
 		}
 	}
 
-	async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+	async login(req, res, next) {
 		try {
 		} catch (e) {
 			console.log(e)
 		}
 	}
 
-	async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
+	async logout(req, res, next) {
 		try {
 		} catch (e) {
 			console.log(e)
@@ -42,10 +41,10 @@ class UserController {
 	}
 
 	async activate(
-		req: Request,
-		res: Response,
-		next: NextFunction
-	): Promise<void> {
+		req,
+		res,
+		next
+	) {
 		try {
 		} catch (e) {
 			console.log(e)
@@ -53,10 +52,10 @@ class UserController {
 	}
 
 	async refresh(
-		req: Request,
-		res: Response,
-		next: NextFunction
-	): Promise<void> {
+		req,
+		res,
+		next
+	) {
 		try {
 		} catch (e) {
 			console.log(e)
@@ -64,10 +63,10 @@ class UserController {
 	}
 
 	async getUsers(
-		req: Request,
-		res: Response,
-		next: NextFunction
-	): Promise<void> {
+		req,
+		res,
+		next
+	) {
 		try {
 			res.json(['123', '456', '789', '123414'])
 		} catch (e) {
