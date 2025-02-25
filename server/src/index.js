@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import mongoose from 'mongoose'
 import { router } from './routes/auth-router.js'
+import { errorMiddleware } from './middlewares/error-middleware.js'
 
 dotenv.config()
 
@@ -14,7 +15,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors())
 app.use('/api', router)
-
+app.user(errorMiddleware())
 
 const start = async () => {
 	try {

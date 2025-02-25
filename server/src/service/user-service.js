@@ -4,6 +4,7 @@ import { UserDto } from '../dtos/user-dto.js'
 import { userModel } from '../models/user-model.js'
 import { isMailService } from './mail-service.js'
 import { isTokenService } from './token-service.js'
+import { isApiError } from '../exceptions/api-error.js'
 
 class UserService {
 	async registration(
@@ -15,7 +16,7 @@ class UserService {
 
 		//Создания ошибки для обработки в контролере
 		if (candidate) {
-			throw new Error(`User with this Email: ${email} already exists`)
+			throw isApiError.BadRequest(`User with this Email: ${email} already exists`)
 		}
 
 		// хешируем пароль
@@ -34,6 +35,17 @@ class UserService {
 		await isTokenService.saveToken(userDto.id, tokens.refreshToken)
 
 		return { ...tokens, user: userDto }
+	}
+
+	async activate(activationLink) {
+		const user = await userModel.findOne({ activationLink })
+		if (!user) {
+			throw isApiError.BadRequest('Link is uncorrected')
+		}
+
+		user.isActivated = true
+
+		await user.save()
 	}
 }
 export const isUserService = new UserService()

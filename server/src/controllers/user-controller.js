@@ -5,7 +5,8 @@ import {
 class UserController {
 	async registration(
 		req,
-		res
+		res,
+		next
 	) {
 		try {
 			const { email, password } = req.body
@@ -19,7 +20,7 @@ class UserController {
 
 			return res.json(userData)
 		} catch (e) {
-			console.log(e)
+			next(e)
 
 
 		}
@@ -28,14 +29,16 @@ class UserController {
 	async login(req, res, next) {
 		try {
 		} catch (e) {
-			console.log(e)
+			next(e)
+
 		}
 	}
 
 	async logout(req, res, next) {
 		try {
 		} catch (e) {
-			console.log(e)
+			next(e)
+
 		}
 	}
 
@@ -45,8 +48,12 @@ class UserController {
 		next
 	) {
 		try {
+			const activationLink = req.params.link
+			await isUserService.activate(activationLink)
+			return res.redirect(process.env.CLIENT_URL)
 		} catch (e) {
-			console.log(e)
+			next(e)
+
 		}
 	}
 
@@ -57,7 +64,8 @@ class UserController {
 	) {
 		try {
 		} catch (e) {
-			console.log(e)
+			next(e)
+
 		}
 	}
 
@@ -69,7 +77,8 @@ class UserController {
 		try {
 			res.json(['123', '456', '789', '123414'])
 		} catch (e) {
-			console.log(e)
+			next(e)
+
 		}
 	}
 }

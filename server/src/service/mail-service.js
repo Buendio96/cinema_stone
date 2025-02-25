@@ -1,33 +1,26 @@
-import { google } from 'googleapis'
+import nodemailer from 'nodemailer'
 
 export class MailService {
 	constructor() {
-		this.oauth2Client = new google.auth.OAuth2(
-			process.env.CLIENT_ID,
-			process.env.CLIENT_SECRET,
-			process.env.REDIRECT_URI
-			// host: process.env.SMTP_HOST,
-			// port: process.env.SMTP_PORT,
-			// secure: false,
-			// auth: {
-			// user: process.env.SMTP_USER,
-			// pass: process.env.SMTP_PASSWORD,
-
-		)
-		oauth2Client.setCredentials({
-			refresh_token: process.env.REFRESH_TOKEN
-		})
 		this.transporter = nodemailer.createTransport({
-			service: 'gmail',
+			host: 'smtp.ethereal.email',
+			port: 587,
 			auth: {
-				type: 'OAuth2',
-				user: process.env.SMTP_USER,
-				clientId: process.env.CLIENT_ID,
-				clientSecret: process.env.CLIENT_SECRET,
-				refreshToken: process.env.REFRESH_TOKEN,
-				accessToken: oauth2Client.getAccessToken()
+				user: 'breanna.marquardt71@ethereal.email',
+				pass: '3bgsa7ktzYXTKq916X'
 			}
 		})
+		// this.transporter = nodemailer.createTransport({
+		// 	host: process.env.SMTP_HOST,
+		// 	port: process.env.SMTP_PORT,
+		// 	secure: true,
+		// 	auth: {
+		// 		type: "OAuth2",
+		// 		user: process.env.SMTP_USER,
+		// 		pass: process.env.APP_PASSWORD,
+		// 		accessToken: process.env.SMTP_ACCESS_TOKEN,
+		// 	},
+		// })	
 	}
 	async sendActivationMail(to, link
 	) {
