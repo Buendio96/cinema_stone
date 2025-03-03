@@ -1,10 +1,10 @@
 import bcrypt from 'bcryptjs'
 import { v4 as uuidv4 } from 'uuid'
 import { UserDto } from '../dtos/user-dto.js'
+import { ApiError } from '../exceptions/api-error.js'
 import { userModel } from '../models/user-model.js'
 import { isMailService } from './mail-service.js'
 import { isTokenService } from './token-service.js'
-import { isApiError } from '../exceptions/api-error.js'
 
 class UserService {
 	async registration(
@@ -16,7 +16,7 @@ class UserService {
 
 		//Создания ошибки для обработки в контролере
 		if (candidate) {
-			throw isApiError.BadRequest(`User with this Email: ${email} already exists`)
+			throw ApiError.BadRequest(`User with this Email: ${email} already exists`)
 		}
 
 		// хешируем пароль
@@ -27,12 +27,16 @@ class UserService {
 
 		//Создаем User
 		const user = await userModel.create({ email, password: hashPassword, activationLink })
-		await isMailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
 
+
+		//Создаем токены для User
 		const userDto = new UserDto(user)
 		const tokens = isTokenService.generateTokens({ ...userDto })
 
 		await isTokenService.saveToken(userDto.id, tokens.refreshToken)
+
+		//Отправляем письмо с активцией
+		await isMailService.sendActivationMail(email, `${process.env.CLIENT_URL}/api/activate/${activationLink}`)
 
 		return { ...tokens, user: userDto }
 	}
@@ -40,7 +44,7 @@ class UserService {
 	async activate(activationLink) {
 		const user = await userModel.findOne({ activationLink })
 		if (!user) {
-			throw isApiError.BadRequest('Link is uncorrected')
+			throw ApiError.BadRequest('Link is uncorrected')
 		}
 
 		user.isActivated = true

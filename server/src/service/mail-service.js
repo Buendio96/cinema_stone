@@ -1,42 +1,50 @@
+import { google } from 'googleapis'
 import nodemailer from 'nodemailer'
+
+
 
 export class MailService {
 	constructor() {
-		this.transporter = nodemailer.createTransport({
-			host: 'smtp.ethereal.email',
-			port: 587,
+		this.oAuthClient = new google.auth.OAuth2(
+			process.env.CLIENT_ID,
+			process.env.CLIENT_SECRET,
+			//REDIRECT_URI
+		)
+		this.oAuthClient.setCredentials({ refresh_token: process.env.REFRESH_TOKEN })
+	}
+
+	async sendActivationMail(to, link) {
+		const accessToken = await this.oAuthClient.getAccessToken()
+
+		const transporter = nodemailer.createTransport({
+			service: "gmail",
 			auth: {
-				user: 'breanna.marquardt71@ethereal.email',
-				pass: '3bgsa7ktzYXTKq916X'
+				type: "OAuth2",
+				user: process.env.MY_EMAIL,
+				clientId: process.env.CLIENT_ID,
+				clientSecret: process.env.CLIENT_SECRET,
+				refreshToken: process.env.REFRESH_TOKEN,
+				accessToken: accessToken,
+			},
+			tls: {
+				rejectUnauthorized: true
 			}
 		})
-		// this.transporter = nodemailer.createTransport({
-		// 	host: process.env.SMTP_HOST,
-		// 	port: process.env.SMTP_PORT,
-		// 	secure: true,
-		// 	auth: {
-		// 		type: "OAuth2",
-		// 		user: process.env.SMTP_USER,
-		// 		pass: process.env.APP_PASSWORD,
-		// 		accessToken: process.env.SMTP_ACCESS_TOKEN,
-		// 	},
-		// })	
-	}
-	async sendActivationMail(to, link
-	) {
-		await this.transporter.sendMail({
-			from: process.env.SMTP_USER,
+
+		await transporter.sendMail({
+			from: process.env.MY_EMAIL,
 			to,
-			subject: 'Активация аккаунта на ' + process.env.API_URL,
-			text: '',
+			subject: "Активация аккаунта на " + process.env.CLIENT_URL,
 			html: `
-				<div>
-					<h1>Для активации перейдите по безопасной ссылке: </h1>
-					<a href="${link}">${link}</a>
-				</div>
-			`
+               <div>
+                   <h1>Для активации перейдите по ссылке:</h1>
+                   <h2>Точно не скам мамонта xD :-D</h2>
+                   <a href="${link}">${link}</a>
+               </div>
+           `,
 		})
 	}
 }
+
 
 export const isMailService = new MailService()

@@ -1,4 +1,4 @@
-class ApiError extends Error {
+export class ApiError extends Error {
 	status
 	errors
 	constructor(status, message, errors = []) {
@@ -8,12 +8,10 @@ class ApiError extends Error {
 	}
 
 	static UnauthorizedError() {
-		return new ApiError(401, 'User isn`t found')
+		return new ApiError(401, 'User isn`t authorized')
 	}
 
 	static BadRequest(message, errors = []) {
 		return new ApiError(400, message, errors)
 	}
 }
-
-export const isApiError = new ApiError()
