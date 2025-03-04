@@ -1,4 +1,4 @@
-import { jsonApiInstance } from '@/shared/aoy/api-instance'
+import { jsonApiInstance } from '@/shared/api/api-instance'
 import { UserDto } from '@/types'
 import { queryOptions } from '@tanstack/react-query'
 

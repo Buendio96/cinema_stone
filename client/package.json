@@ -4,8 +4,7 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "concurrently \"vite\" \"pnpm run server\"",
-		"server": "json-server --watch db.json --port 5000",
+		"dev": " vite ",
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview"
@@ -31,11 +30,14 @@
 	"devDependencies": {
 		"@eslint/js": "^9.19.0",
 		"@tanstack/eslint-plugin-query": "^5.66.1",
+		"@types/axios": "^0.14.4",
 		"@types/node": "^22.13.2",
 		"@types/react": "^19.0.8",
 		"@types/react-dom": "^19.0.3",
 		"@vitejs/plugin-react": "^4.3.4",
+		"axios": "^1.8.1",
 		"concurrently": "^9.1.2",
+		"dotenv": "^16.4.7",
 		"eslint": "^9.19.0",
 		"eslint-plugin-react-hooks": "^5.0.0",
 		"eslint-plugin-react-refresh": "^0.4.18",
