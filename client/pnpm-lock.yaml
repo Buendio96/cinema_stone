@@ -105,6 +105,12 @@ importers:
       lucide:
         specifier: ^0.475.0
         version: 0.475.0
+      mobx:
+        specifier: ^6.13.6
+        version: 6.13.6
+      mobx-react-lite:
+        specifier: ^4.1.0
+        version: 4.1.0(mobx@6.13.6)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       sass:
         specifier: ^1.84.0
         version: 1.84.0
@@ -1769,6 +1775,22 @@ packages:
   minimatch@9.0.5:
     resolution: {integrity: sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==}
     engines: {node: '>=16 || 14 >=14.17'}
+
+  mobx-react-lite@4.1.0:
+    resolution: {integrity: sha512-QEP10dpHHBeQNv1pks3WnHRCem2Zp636lq54M2nKO2Sarr13pL4u6diQXf65yzXUn0mkk18SyIDCm9UOJYTi1w==}
+    peerDependencies:
+      mobx: ^6.9.0
+      react: ^16.8.0 || ^17 || ^18 || ^19
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+
+  mobx@6.13.6:
+    resolution: {integrity: sha512-r19KNV0uBN4b+ER8Z0gA4y+MzDYIQ2SvOmn3fUrqPnWXdQfakd9yfbPBDBF/p5I+bd3N5Rk1fHONIvMay+bJGA==}
 
   mrmime@2.0.1:
     resolution: {integrity: sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ==}
@@ -3692,6 +3714,16 @@ snapshots:
   minimatch@9.0.5:
     dependencies:
       brace-expansion: 2.0.1
+
+  mobx-react-lite@4.1.0(mobx@6.13.6)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      mobx: 6.13.6
+      react: 19.0.0
+      use-sync-external-store: 1.4.0(react@19.0.0)
+    optionalDependencies:
+      react-dom: 19.0.0(react@19.0.0)
+
+  mobx@6.13.6: {}
 
   mrmime@2.0.1: {}
 
