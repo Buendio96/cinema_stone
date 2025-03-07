@@ -1,0 +1,5 @@
+{
+	"devDependencies": {
+		"mobx": "^6.13.6"
+	}
+}

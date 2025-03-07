@@ -1,4 +1,3 @@
-import { IAppState } from '@/types/appState'
 import {
 	combineSlices,
 	configureStore,
@@ -10,7 +9,8 @@ import { useDispatch, useSelector, useStore } from 'react-redux'
 
 export const rootReducer = combineSlices()
 
-export type AppState = IAppState
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AppState = any
 export type AppDispatch = typeof store.dispatch
 
 export type AppThunk<R = void> = ThunkAction<

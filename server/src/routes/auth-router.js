@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
 import { isUserController } from '../controllers/user-controller.js'
+import { authMiddleware } from '../middlewares/auth-middleware.js'
 export const router = Router()
 
 router.post('/registration',
@@ -11,4 +12,4 @@ router.post('/login', isUserController.login)
 router.post('/logout', isUserController.logout)
 router.get('/activate/:link', isUserController.activate)
 router.get('/refresh', isUserController.refresh)
-router.get('/users', isUserController.getUsers)
+router.get('/users', authMiddleware, isUserController.getUsers)

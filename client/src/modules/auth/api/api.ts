@@ -1,29 +1,27 @@
-import { jsonApiInstance } from '@/shared/api/api-instance'
-import { UserDto } from '@/types'
+import { IAuthResponse } from '@/types/response/AuthResponse'
+import { AxiosResponse } from 'axios'
+import $api from '../http'
 import { queryOptions } from '@tanstack/react-query'
 
 export const authApi = {
-	baseKey: '',
+	baseKey: 'users',
 
-	getUserById: (id: string) => {
+	getAccessToken: (token: string) => {
 		return queryOptions({
-			queryKey: [authApi.baseKey, 'byId', id],
+			queryKey: [authApi.baseKey, 'token', token],
 			queryFn: (meta) =>
-				jsonApiInstance<UserDto>(`/users/${id}`, {
+				$api.get<IAuthResponse>(`/refresh`, {
 					signal: meta.signal,
 				}),
 		})
 	},
-
-	loginUser: async ({
+	login: async ({
 		login,
 		password,
 	}: {
 		login: string
 		password: string
-	}) => {
-		return jsonApiInstance<UserDto[]>(
-			`/users?login=${login}&password=${password}`
-		)
+	}): Promise<AxiosResponse<IAuthResponse>> => {
+		return $api.post<IAuthResponse>('/login', { login, password })
 	},
 }

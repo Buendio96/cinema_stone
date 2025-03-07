@@ -15,6 +15,7 @@ class UserController {
 			if (!errors.isEmpty()) {
 				return next(ApiError.BadRequest('Validation`s error', errors.array()))
 			}
+
 			const { email, password } = req.body
 			const userData = await isUserService.registration(email, password)
 
@@ -34,6 +35,15 @@ class UserController {
 
 	async login(req, res, next) {
 		try {
+			const { email, password } = req.body
+			const userData = await isUserService.login(email, password)
+
+			res.cookie('refreshToken', userData.refreshToken, {
+				maxAge: 30 * 24 * 60 * 60 * 1000,
+				httpOnly: true
+			})
+
+			return res.json(userData)
 		} catch (e) {
 			next(e)
 
@@ -42,6 +52,11 @@ class UserController {
 
 	async logout(req, res, next) {
 		try {
+			const { refreshToken } = req.cookies
+			const token = await isUserService.logout(refreshToken)
+			res.clearCookie('refreshToken')
+			return res.json(token)
+
 		} catch (e) {
 			next(e)
 
@@ -69,6 +84,14 @@ class UserController {
 		next
 	) {
 		try {
+			const { refreshToken } = req.cookies
+			const userData = await isUserService.refresh(refreshToken)
+			res.cookie(
+				'refreshToken',
+				userData.refreshToken,
+				{ maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true }
+			)
+			return res.json(userData)
 		} catch (e) {
 			next(e)
 
@@ -81,7 +104,8 @@ class UserController {
 		next
 	) {
 		try {
-			res.json(['123', '456', '789', '123414'])
+			const users = await isUserService.getAllUsers()
+			return res.json(users)
 		} catch (e) {
 			next(e)
 

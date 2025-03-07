@@ -14,7 +14,7 @@ export class TokenService {
 
 		//Создаем два токена
 		const accessToken = jwt.sign(payload, accessSecret, {
-			expiresIn: '30m',
+			expiresIn: '30s',
 		})
 
 		const refreshToken = jwt.sign(payload, refreshSecret, {
@@ -24,8 +24,26 @@ export class TokenService {
 		return { accessToken, refreshToken }
 	}
 
+	validateAccessToken(token) {
+		try {
+			const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET)
+			return userData
+		} catch (e) {
+			return null
+		}
+	}
+
+	validateRefreshToken(token) {
+		try {
+			const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET)
+			return userData
+		} catch (e) {
+			return null
+		}
+	}
+
 	async saveToken(userId, refreshToken) {
-		//Есть ли такой токена у какого то пользователя
+		//Есть ли такой токен у какого то пользователя
 		const tokenData = await tokenModel.findOne({ user: userId })
 
 		//Если да то перезаписуем на новый токен
@@ -40,6 +58,16 @@ export class TokenService {
 		const token = await tokenModel.create({ user: userId, refreshToken })
 
 		return token
+	}
+
+	async removeToken(refreshToken) {
+		const tokenData = await tokenModel.deleteOne({ refreshToken })
+		return tokenData
+	}
+
+	async findToken(refreshToken) {
+		const tokenData = await tokenModel.findOne({ refreshToken })
+		return tokenData
 	}
 }
 
