@@ -72,6 +72,7 @@ class UserService {
 		return { ...tokens, user: userDto }
 	}
 
+
 	async logout(refreshToken) {
 		const token = await isTokenService.removeToken(refreshToken)
 		return token
