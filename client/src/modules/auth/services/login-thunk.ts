@@ -1,28 +1,29 @@
-import { queryClient } from '@/shared/api/query-client'
-import { AppThunk } from '@/shared/redux'
 import { MutationObserver, useMutation } from '@tanstack/react-query'
+import { queryClient } from '../../../shared/api/query-client'
+import { AppThunk } from '../../../shared/redux'
 import { authApi } from '../api/api'
 import { authSlice } from './auth.slice'
 
 export const loginThunk =
-	(login: string, password: string): AppThunk =>
+	(email: string, password: string): AppThunk =>
 	async (dispatch) => {
 		try {
 			const user = await new MutationObserver(queryClient, {
 				mutationKey: ['login'],
-				mutationFn: authApi.login,
+				mutationFn: authApi.loginUser,
 			}).mutate({
-				login,
+				email,
 				password,
 			})
 			if (user) {
 				dispatch(
-					authSlice.actions.setAuth({
-						token: user.data.accessToken,
+					authSlice.actions.authUser({
+						token: user.accessToken,
+						isAuth: true,
 					})
 				)
-				//queryClient.setQueryData(authApi.getUserById(user.id).queryKey, user)
-				localStorage.setItem('token', user.data.accessToken)
+				queryClient.setQueryData(authApi.getUser().queryKey, user)
+				localStorage.setItem('token', user.accessToken)
 			}
 			dispatch(
 				authSlice.actions.setError(
