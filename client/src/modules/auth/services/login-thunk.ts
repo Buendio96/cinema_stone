@@ -8,22 +8,23 @@ export const loginThunk =
 	(email: string, password: string): AppThunk =>
 	async (dispatch) => {
 		try {
-			const user = await new MutationObserver(queryClient, {
+			const response = await new MutationObserver(queryClient, {
 				mutationKey: ['login'],
 				mutationFn: authApi.loginUser,
 			}).mutate({
 				email,
 				password,
 			})
-			if (user) {
+			if (response) {
 				dispatch(
 					authSlice.actions.authUser({
-						token: user.accessToken,
+						token: response.accessToken,
 						isAuth: true,
 					})
 				)
-				queryClient.setQueryData(authApi.getUser().queryKey, user)
-				localStorage.setItem('token', user.accessToken)
+				queryClient.setQueryData(authApi.getUser().queryKey, response)
+
+				localStorage.setItem('token', response.accessToken)
 			}
 			dispatch(
 				authSlice.actions.setError(

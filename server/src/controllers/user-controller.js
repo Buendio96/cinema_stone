@@ -86,6 +86,7 @@ class UserController {
 		try {
 			const { refreshToken } = req.cookies
 			const userData = await isUserService.refresh(refreshToken)
+
 			res.cookie(
 				'refreshToken',
 				userData.refreshToken,

@@ -2,7 +2,7 @@ const BASE_URL = 'http://localhost:4000/api'
 
 class ApiError extends Error {
 	constructor(public response: Response) {
-		super('ApiError: ' + response.status)
+		super('ApiError:' + response.status)
 	}
 }
 
@@ -23,11 +23,8 @@ export const jsonApiInstance = async <T>(
 	})
 
 	if (!result.ok) {
-		console.log(result)
-
 		throw new ApiError(result)
 	}
-
 	const data = (await result.json()) as Promise<T>
 
 	return data

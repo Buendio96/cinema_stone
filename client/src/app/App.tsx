@@ -1,5 +1,5 @@
 import { useUser } from '@/modules/auth/hooks/use-user'
-import Login from '@/modules/Login'
+import Login from '@/modules/auth/Login'
 
 export default function App() {
 	const user = useUser()
@@ -20,5 +20,6 @@ export default function App() {
 			</div>
 		)
 	}
+
 	return <Login />
 }

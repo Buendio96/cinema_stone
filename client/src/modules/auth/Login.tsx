@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/shared/redux'
-import { authSlice } from './auth/services/auth.slice'
-import { loginThunk, useLoginLoading } from './auth/services/login-thunk'
+import { authSlice } from './services/auth.slice'
+import { loginThunk, useLoginLoading } from './services/login-thunk'
 
 export default function Login() {
 	const dispatch = useAppDispatch()

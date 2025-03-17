@@ -14,7 +14,7 @@ export class TokenService {
 
 		//Создаем два токена
 		const accessToken = jwt.sign(payload, accessSecret, {
-			expiresIn: '30s',
+			expiresIn: '30m',
 		})
 
 		const refreshToken = jwt.sign(payload, refreshSecret, {
