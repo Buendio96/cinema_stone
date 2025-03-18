@@ -38,3 +38,7 @@ export const loginThunk =
 
 export const useLoginLoading = () =>
 	useMutation({ mutationKey: ['login'] }).isPending
+
+export const useLoginedUser = () => {
+	useMutation({})
+}

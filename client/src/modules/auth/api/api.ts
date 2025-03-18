@@ -16,8 +16,10 @@ export interface IAuthResponse {
 	refreshToken: string
 	user: IUser
 }
+
 export const authApi = {
 	baseKey: 'user',
+
 	getUser: () => {
 		return queryOptions({
 			queryKey: [authApi.baseKey, 'byToken'],
@@ -29,6 +31,7 @@ export const authApi = {
 				}),
 		})
 	},
+
 	loginUser: async ({
 		email,
 		password,
