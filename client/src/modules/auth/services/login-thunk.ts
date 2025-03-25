@@ -1,6 +1,7 @@
-import { MutationObserver, useMutation } from '@tanstack/react-query'
+import { ApiError } from '@/shared/api/api-instance'
+import { MutationObserver } from '@tanstack/react-query'
 import { queryClient } from '../../../shared/api/query-client'
-import { AppThunk } from '../../../shared/redux'
+import { AppThunk } from '../../../shared/store/store'
 import { authApi } from '../api/api'
 import { authSlice } from './auth.slice'
 
@@ -15,6 +16,7 @@ export const loginThunk =
 				email,
 				password,
 			})
+
 			if (response) {
 				dispatch(
 					authSlice.actions.authUser({
@@ -23,22 +25,17 @@ export const loginThunk =
 					})
 				)
 				queryClient.setQueryData(authApi.getUser().queryKey, response)
-
 				localStorage.setItem('token', response.accessToken)
 			}
-			dispatch(
-				authSlice.actions.setError(
-					'Password or Login is not correct, please try again'
+		} catch (error) {
+			if (error instanceof ApiError) {
+				dispatch(
+					authSlice.actions.setError(
+						error.message || 'An unexpected error occurred'
+					)
 				)
-			)
-		} catch (e) {
-			console.log(e)
+			} else {
+				dispatch(authSlice.actions.setError('An unexpected error occurred'))
+			}
 		}
 	}
-
-export const useLoginLoading = () =>
-	useMutation({ mutationKey: ['login'] }).isPending
-
-export const useLoginedUser = () => {
-	useMutation({})
-}

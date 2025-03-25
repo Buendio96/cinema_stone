@@ -1,6 +1,6 @@
 const BASE_URL = 'http://localhost:4000/api'
 
-class ApiError extends Error {
+export class ApiError extends Error {
 	message: string
 	status: number
 	errors: { field?: string; message: string }[]
@@ -45,6 +45,7 @@ export const jsonApiInstance = async <T>(
 
 	if (result.status === 401) {
 		localStorage.removeItem('token')
+
 		throw await ApiError.fromResponse(result)
 	}
 

@@ -1,6 +1,5 @@
-import { queryClient } from '@/shared/api/query-client'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { useAppSelector } from '../../../shared/redux'
+import { useAppSelector } from '../../../shared/store/store'
 import { authApi } from '../api/api'
 import { authSlice } from '../services/auth.slice'
 
@@ -9,7 +8,6 @@ export function useUser() {
 	return useQuery({
 		...authApi.getUser(),
 		enabled: Boolean(token),
-		initialData: () => queryClient.getQueryData(authApi.getUser().queryKey),
 		staleTime: 1000 * 60 * 5,
 		retry: false,
 	})

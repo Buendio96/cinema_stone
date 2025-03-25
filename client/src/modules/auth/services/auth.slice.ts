@@ -1,5 +1,5 @@
+import { rootReducer } from '@/shared/store/store'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { rootReducer } from '../../../shared/redux'
 
 type AuthState = {
 	token: string | undefined

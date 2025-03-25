@@ -1,23 +1,12 @@
+import { useAppDispatch, useAppSelector } from '@/shared/store/store'
 import React from 'react'
-import { useAppDispatch, useAppSelector } from '@/shared/redux'
 import { authSlice } from './services/auth.slice'
-import { loginThunk, useLoginLoading } from './services/login-thunk'
+import { loginThunk } from './services/login-thunk'
 
-type LoginProps = {
-	onGuestRoleSelect: () => void // Функция для изменения роли на гостя
-}
-
-export default function Login({ onGuestRoleSelect }: LoginProps) {
+export default function LoginForm() {
 	const dispatch = useAppDispatch()
 	const loginError = useAppSelector(authSlice.selectors.loginError)
-	const isLoading = useLoginLoading()
 
-	// Функция для установки роли гостя
-	const handleSetGuestRole = () => {
-		onGuestRoleSelect() // Вызовем переданную функцию для установки роли "guest"
-	}
-
-	// Функция для входа
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
@@ -27,7 +16,7 @@ export default function Login({ onGuestRoleSelect }: LoginProps) {
 		const password = formData.get('password')?.toString().trim() ?? ''
 
 		if (email === '' || password === '') return
-		dispatch(loginThunk(email, password)) // Выполняем вход
+		dispatch(loginThunk(email, password))
 	}
 
 	return (
@@ -50,18 +39,8 @@ export default function Login({ onGuestRoleSelect }: LoginProps) {
 				{loginError && (
 					<div className='text-rose-900 font-semibold'>{loginError}</div>
 				)}
-				<button
-					disabled={isLoading}
-					className='bg-amber-900 text-white font-semibold uppercase rounded border disabled:text-gray-400'
-				>
+				<button className='bg-amber-900 text-white font-semibold uppercase rounded border disabled:text-gray-400'>
 					Войти
-				</button>
-				<button
-					type='button'
-					onClick={handleSetGuestRole}
-					className='bg-amber-900 text-white font-semibold uppercase rounded border disabled:text-gray-400'
-				>
-					Продолжить как гость
 				</button>
 			</form>
 		</section>
