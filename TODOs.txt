@@ -1,0 +1,7 @@
+#Компоненты 
+1.Loader
+2.Error
+3.Basic(Footer,Header itc.)
+
+#Стили
+1.Цвето схемы
